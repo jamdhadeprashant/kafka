@@ -15,7 +15,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       CLUSTER_ID: 'WnLkTHhkQaiJbwP8FClPhw'
     volumes:
-      - kafka-1-data:/var/lib/kafka/data
+      - kafka-1-data:/tmp/kafka-logs
 
   kafka-2:
     image: apache/kafka:latest
@@ -33,7 +33,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       CLUSTER_ID: 'WnLkTHhkQaiJbwP8FClPhw'
     volumes:
-      - kafka-2-data:/var/lib/kafka/data
+      - kafka-2-data:/tmp/kafka-logs
 
   kafka-3:
     image: apache/kafka:latest
@@ -51,9 +51,12 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: 'PLAINTEXT'
       CLUSTER_ID: 'WnLkTHhkQaiJbwP8FClPhw'
     volumes:
-      - kafka-3-data:/var/lib/kafka/data
+      - kafka-3-data:/tmp/kafka-logs
 
 volumes:
   kafka-1-data:
+    name: kafka-1-data
   kafka-2-data:
+    name: kafka-2-data
   kafka-3-data:
+    name: kafka-3-data
