@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -22,18 +23,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String createProduct(CreateProductRestModel productRestModel) {
+    public String createProduct(CreateProductRestModel productRestModel) throws Exception {
         String productId = UUID.randomUUID().toString();
         //TODO: persist product details into database table before publish event
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(productId, productRestModel.getTitle(), productRestModel.getPrice(), productRestModel.getQuantity());
-        CompletableFuture<SendResult<String,ProductCreatedEvent>> future= kafkaTemplate.send("product-created-event-topic",productId,productCreatedEvent);
-        future.whenComplete((result,exception)->{
-           if(exception!=null){
-               logger.error("********** Failed to send message:"+exception.getMessage());
-           }else {
-               logger.info("********** Message sent successfullys"+result.getRecordMetadata());
-           }
-        });
+        logger.info("********** Before publishing a productCreatedEvent");
+
+        SendResult<String,ProductCreatedEvent> result= kafkaTemplate.send("product-created-event-topic",productId,productCreatedEvent).get();
+
+        logger.info("Partition:"+result.getRecordMetadata().partition());
+        logger.info("Topic:"+result.getRecordMetadata().topic());
+        logger.info("offset:"+result.getRecordMetadata().offset());
+
         logger.info("********** returning product id");
         return productId;
     }
