@@ -1,6 +1,6 @@
 package com.apps.ws.products.config;
 
-import com.apps.ws.products.event.ProductCreatedEvent;
+import com.apps.ws.core.ProductCreatedEvent;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
