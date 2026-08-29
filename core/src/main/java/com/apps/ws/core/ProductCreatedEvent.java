@@ -1,4 +1,4 @@
-package com.apps.ws.products.event;
+package com.apps.ws.core;
 
 import java.math.BigDecimal;
 
