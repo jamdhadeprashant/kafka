@@ -1,4 +1,4 @@
-package com.apps.ws.products;
+package com.appsdeveloperblog.ws.products;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +12,7 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-
-import com.apps.ws.core.ProductCreatedEvent;
+import com.appsdeveloperblog.ws.core.ProductCreatedEvent;
 
 @Configuration
 public class KafkaConfig {
@@ -44,7 +43,7 @@ public class KafkaConfig {
     
     @Value("${spring.kafka.producer.properties.max.in.flight.requests.per.connection}")
     private Integer inflightRequests;
-	
+
 	Map<String, Object> producerConfigs() {
 		Map<String, Object> config = new HashMap<>();
 		
@@ -58,7 +57,7 @@ public class KafkaConfig {
 		config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, idempotence);
 		config.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, inflightRequests);
 		//config.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);
-		
+
 		return config;
 	}
 	

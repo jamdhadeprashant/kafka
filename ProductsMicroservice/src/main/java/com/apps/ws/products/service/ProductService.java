@@ -1,6 +1,6 @@
-package com.apps.ws.products.service;
+package com.appsdeveloperblog.ws.products.service;
 
-import com.apps.ws.products.rest.CreateProductRestModel;
+import com.appsdeveloperblog.ws.products.rest.CreateProductRestModel;
 
 public interface ProductService {
 	

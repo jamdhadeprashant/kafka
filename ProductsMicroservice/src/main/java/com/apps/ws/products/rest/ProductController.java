@@ -1,4 +1,4 @@
-package com.apps.ws.products.rest;
+package com.appsdeveloperblog.ws.products.rest;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.apps.ws.products.service.ProductService;
+import com.appsdeveloperblog.ws.products.service.ProductService;
 
 @RestController
 @RequestMapping("/products") //http://localhost:<port>/products
