@@ -1,7 +1,8 @@
-package com.appsdeveloperblog.ws.products.rest;
+package com.apps.ws.products.rest;
 
 import java.util.Date;
 
+import com.apps.ws.products.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.appsdeveloperblog.ws.products.service.ProductService;
 
 @RestController
 @RequestMapping("/products") //http://localhost:<port>/products

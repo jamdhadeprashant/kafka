@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.ws.products.rest;
+package com.apps.ws.products.rest;
 
 import java.math.BigDecimal;
 
