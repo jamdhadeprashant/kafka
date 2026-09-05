@@ -1,9 +1,9 @@
 package com.apps.ws.products.service;
 
-import com.apps.ws.products.model.CreateProductRestModel;
-
-import java.util.concurrent.ExecutionException;
+import com.apps.ws.products.rest.CreateProductRestModel;
 
 public interface ProductService {
-    String createProduct(CreateProductRestModel productRestModel) throws Exception;
+	
+	String createProduct(CreateProductRestModel productRestModel) throws Exception ;
+
 }

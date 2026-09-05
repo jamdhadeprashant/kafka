@@ -1,41 +1,55 @@
 package com.apps.ws.products.service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import com.apps.ws.core.ProductCreatedEvent;
-import com.apps.ws.products.model.CreateProductRestModel;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import com.apps.ws.products.rest.CreateProductRestModel;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+	
+	KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate;
+	private final Logger LOGGER  = LoggerFactory.getLogger(this.getClass());
+	
+	public ProductServiceImpl(KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate) {
+		this.kafkaTemplate = kafkaTemplate;
+	}
 
-    private final Logger logger= LoggerFactory.getLogger(this.getClass());
-    KafkaTemplate<String,ProductCreatedEvent> kafkaTemplate;
+	@Override
+	public String createProduct(CreateProductRestModel productRestModel) throws Exception {
+		
+		String productId = UUID.randomUUID().toString();
+		
+		// TODO: Persist Product Details into database table before publishing an Event
+		
+		ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(productId,
+				productRestModel.getTitle(), productRestModel.getPrice(), 
+				productRestModel.getQuantity());
+		
+		LOGGER.info("Before publishing a ProductCreatedEvent");
 
-    public ProductServiceImpl(KafkaTemplate<String, ProductCreatedEvent> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+		ProducerRecord<String, ProductCreatedEvent> record=new ProducerRecord<>("product-created-events-topic1",productId,productCreatedEvent);
 
-    @Override
-    public String createProduct(CreateProductRestModel productRestModel) throws Exception {
-        String productId = UUID.randomUUID().toString();
-        //TODO: persist product details into database table before publish event
-        ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent(productId, productRestModel.getTitle(), productRestModel.getPrice(), productRestModel.getQuantity());
-        logger.info("********** Before publishing a productCreatedEvent");
+		//record.headers().add("messageId",UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8));
+		record.headers().add("messageId","123".getBytes());
 
-        SendResult<String,ProductCreatedEvent> result= kafkaTemplate.send("product-created-event-topic",productId,productCreatedEvent).get();
+		SendResult<String, ProductCreatedEvent> result = 
+				kafkaTemplate.send(record).get();
 
-        logger.info("Partition:"+result.getRecordMetadata().partition());
-        logger.info("Topic:"+result.getRecordMetadata().topic());
-        logger.info("offset:"+result.getRecordMetadata().offset());
+		LOGGER.info("Partition: " + result.getRecordMetadata().partition());
+		LOGGER.info("Topic: " + result.getRecordMetadata().topic());
+		LOGGER.info("Offset: " + result.getRecordMetadata().offset());
+		
+		LOGGER.info("***** Returning product id");
+		
+		return productId;
+	}
 
-        logger.info("********** returning product id");
-        return productId;
-    }
 }

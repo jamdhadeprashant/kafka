@@ -1,13 +1,13 @@
-package com.apps.ws.products;
+package com.appsdeveloperblog.ws.mockservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProductsMicroserviceApplication {
+public class MockserviceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductsMicroserviceApplication.class, args);
+		SpringApplication.run(MockserviceApplication.class, args);
 	}
 
 }
